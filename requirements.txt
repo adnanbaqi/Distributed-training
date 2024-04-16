@@ -1,0 +1,17 @@
+petals 
+fastapi
+immudb-py
+requests
+python-multipart
+pyotp==2.9.0
+python-dotenv~=1.0.0
+cryptography~=41.0.7
+<<<<<<< HEAD
+pygments>=2.17.2
+fastapi >= 0.104.1
+guess-language-spirit>=0.5.3
+python_multipart >=0.0.9
+transformers
+torch 
+=======
+>>>>>>> 7aa2d69bbe4397e655a20c8a90b2d3c45df56c0e
