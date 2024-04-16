@@ -29,7 +29,7 @@ Leveraging cutting-edge technologies and algorithms, the Petals Pipeline aims to
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/adnanbaqi/petals_pipeline.git
+git clone https://github.com/adnanbaqi/Distributed_Training-.git
 ```
 
 2. Navigate to the project directory:
