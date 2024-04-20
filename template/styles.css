@@ -8,7 +8,7 @@ body, html {
 
 .container {
     width: 60%;
-    height: 60%;
+    height: 80%;
     margin: 40px auto;
     background: rgb(236, 236, 236);
     padding: 20px;
@@ -23,6 +23,33 @@ body, html {
     padding-bottom: 20px;
     margin-top: 20%;
     
+}
+/* Style for provider ID and validator ID inputs */
+#provider-id-input, #validator-id-input {
+    width: 40%; /* Adjust width as necessary */
+    padding: 5px;
+    margin-top: 20px; /* Space above the input */
+    border: 2px solid #007bff; /* Border color similar to your button */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Text size within the input */
+    background-color: #fff; /* Background color */
+    color: #333;
+    margin-left: 1%; /* Text color */
+}
+
+/* Style for input focus */
+#provider-id-input:focus, #validator-id-input:focus {
+    border-color: #0056b3; /* Darker blue when focused */
+    outline: none; /* Removes the default outline */
+    box-shadow: 0 0 8px rgba(0, 86, 179, 0.8); /* Soft glow effect */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #provider-id-input, #validator-id-input {
+        width: 100%; /* Full width on smaller screens */
+        margin-top: 10px; /* Less space on smaller screens */
+    }
 }
 
 .header h1 {
