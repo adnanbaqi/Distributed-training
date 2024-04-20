@@ -1,69 +1,65 @@
-from fastapi import APIRouter, HTTPException, status
-from fastapi.responses import JSONResponse
-from immudb.client import ImmudbClient
-<<<<<<< HEAD
 import os
-import json  # Ensure json is imported for handling JSON data
+import json
+import logging
 from dotenv import load_dotenv
+from fastapi import APIRouter, HTTPException, status, Depends, Security
+from fastapi.responses import JSONResponse
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from immudb.client import ImmudbClient
 
 load_dotenv()
 
-=======
-import re
-import os
->>>>>>> 7aa2d69bbe4397e655a20c8a90b2d3c45df56c0e
-router = APIRouter()
+logging.basicConfig(level=logging.INFO, filename='LOGS/endpoint.log', filemode='a',
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Security
+security = HTTPBearer()
+
+def validate_token(auth: HTTPAuthorizationCredentials = Security(security)):
+    token = auth.credentials
+    if token != os.getenv("GLOBAL_AUTH_TOKEN"):
+        logging.error("Invalid token")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid or expired token")
+    logging.info("Token validated successfully")
+
+router = APIRouter(dependencies=[Depends(validate_token)])
 
 # Initialize immudb client
 immudb_user = os.getenv('IMMUDB_USERNAME')
 immudb_password = os.getenv('IMMUDB_PASSWORD')
 immudb_database = os.getenv('IMMUDB_DS1')
-<<<<<<< HEAD
-=======
 
 client = ImmudbClient()
-client.login(immudb_user, immudb_password)
-client.useDatabase(immudb_database)
->>>>>>> 7aa2d69bbe4397e655a20c8a90b2d3c45df56c0e
+try:
+    client.login(immudb_user, immudb_password)
+    logging.info("Logged into Immudb successfully.")
+except Exception as e:
+    logging.error("Failed to log into Immudb: %s", e)
+    raise e
 
-client = ImmudbClient()
-client.login(immudb_user, immudb_password)
-client.useDatabase(immudb_database)
+try:
+    client.useDatabase(immudb_database)
+    logging.info("Database selected successfully.")
+except Exception as e:
+    logging.error("Failed to select database: %s", e)
+    raise e
 
 @router.get("/api/v1/load/{session_id}")
 async def load(session_id: str):
     try:
+        logging.info(f"Attempting to retrieve session ID: {session_id}")
         response = client.get(session_id.encode())
         
         if response is None:
+            logging.warning("Session ID not found: %s", session_id)
             raise HTTPException(status_code=404, detail="Session ID not found")
 
-        # Decode the stored JSON data
-        data = json.loads(response.value.decode("utf-8"))  # Make sure to parse the JSON data correctly
+        data = json.loads(response.value.decode("utf-8"))
+        logging.info(f"Session data retrieved and decoded successfully for session ID: {session_id}")
         return JSONResponse(content={"data": data}, status_code=status.HTTP_200_OK)
+    except HTTPException as e:
+        logging.error("HTTP exception occurred: %s", str(e))
+        raise
     except Exception as e:
-<<<<<<< HEAD
+        logging.error("An error occurred: %s", str(e))
         return JSONResponse(content={"detail": str(e)}, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
-=======
-        # Handle exceptions
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
-
-@router.get("/api/v1/load/{key}")
-async def load(key: str):
-    try:
-        # Assuming `key` is already url-safe and correctly formatted
-        response = client.get(key.encode())
-        
-        if response is None:
-            raise HTTPException(status_code=404, detail="Key not found")
-        
-        # Access the correct attribute of the response object to get the byte string
-        # This example assumes the attribute is named 'value', adjust as necessary
-        byte_value = response.value  # Adjust this line based on the actual attribute name
-        
-        text = byte_value.decode("utf-8")
-        return {"text": text}
-    except Exception as e:
-        return JSONResponse(content={"detail": str(e)}, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
->>>>>>> 7aa2d69bbe4397e655a20c8a90b2d3c45df56c0e
