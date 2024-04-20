@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 // Display the returned data
-                languageDisplay.textContent = 'Language: ' + data.language;
-                tokensDisplay.textContent = 'Number of Tokens: ' + data.num_tokens;
-                sessionIdDisplay.textContent = 'Session ID: ' + data.session_id;
+                languageDisplay.textContent = data.language;
+                tokensDisplay.textContent = data.num_tokens;
+                sessionIdDisplay.textContent =data.session_id;
 
                 // Optionally reset file input
                 fileInput.value = '';
