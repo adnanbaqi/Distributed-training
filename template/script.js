@@ -20,17 +20,17 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-            const formData = new FormData();
-            formData.append('file', file);
-            
-            const url = `http://127.0.0.1:8000/api/v1/store?provider_id=${encodeURIComponent(providerId)}&validator_id=${encodeURIComponent(validatorId)}`;
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        const url = `http://127.0.0.1:8000/api/v1/store?provider_id=${encodeURIComponent(providerId)}&validator_id=${encodeURIComponent(validatorId)}`;
         
         uploadSuccess.style.display = 'none';
         progressBarContainer.style.display = 'block';
         progressBarFill.style.width = '0%';  // Reset progress bar width before starting upload
-            
-            fetch(url, {
-                method: 'POST',
+        
+        fetch(url, {
+            method: 'POST',
             body: formData
         }).then(response => {
             if (!response.ok) {
@@ -38,20 +38,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return response.json();
         }).then(data => {
-                console.log('Upload successful:', data);
+            console.log('Upload successful:', data);
             progressBarFill.style.width = '100%';  // Update progress bar to full width on success
             if (data.message) {
                 uploadSuccess.textContent = data.message;
-                    uploadSuccess.style.display = 'block';
-                }
+                uploadSuccess.style.display = 'block';
+            }
 
-                // Display the returned data
+            // Display the returned data
             languageDisplay.textContent = data.language || 'N/A';
             tokensDisplay.textContent = data.num_tokens || 'N/A';
             sessionIdDisplay.textContent = data.session_id || 'N/A';
-            }).catch(error => {
-                console.error('Upload error:', error);
-                alert('Failed to upload the file. Please try again.');
+        }).catch(error => {
+            console.error('Upload error:', error);
+            alert('Failed to upload the file. Please try again.');
         }).finally(() => {
             // Hide progress bar and reset input after operation
             setTimeout(() => {
