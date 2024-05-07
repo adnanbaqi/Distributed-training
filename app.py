@@ -7,8 +7,14 @@ from controller.load_data import router as load_router  # Importing from the con
 # from controller.train_data import router as train_router
 
 # Setup logging
-logging.basicConfig(level=logging.INFO, filename='LOGS/endpoint.log', filemode='a',
-                    format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.DEBUG,  # Change to logging.INFO or logging.WARNING for less verbosity
+    filename='LOGS/endpoint.log',
+    filemode='a',
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 

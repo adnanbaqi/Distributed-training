@@ -15,8 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const providerId = providerIdInput.value.trim();
         const validatorId = validatorIdInput.value.trim();
 
-        if (!file || !providerId || !validatorId) {
-            alert('Please ensure all fields are filled and a file is selected.');
+        // Add a UUID validation check here
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        if (!file || !providerId || !uuidRegex.test(validatorId)) {
+            alert('Please ensure all fields are filled with valid UUIDs and a file is selected.');
             return;
         }
 
@@ -29,6 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
         progressBarContainer.style.display = 'block';
         progressBarFill.style.width = '0%';  // Reset progress bar width before starting upload
         
+        proceedButton.disabled = true;
+
         fetch(url, {
             method: 'POST',
             body: formData

@@ -9,8 +9,14 @@ from immudb.client import ImmudbClient
 
 load_dotenv()
 
-logging.basicConfig(level=logging.INFO, filename='LOGS/endpoint.log', filemode='a',
-                    format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.DEBUG,  # Change to logging.INFO or logging.WARNING for less verbosity
+    filename='LOGS/endpoint.log',
+    filemode='a',
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
+logger = logging.getLogger(__name__)
 
 # Security
 security = HTTPBearer()
